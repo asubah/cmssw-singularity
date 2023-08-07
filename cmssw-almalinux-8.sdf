@@ -1,0 +1,44 @@
+BootStrap: docker
+From: library/almalinux:8
+
+%post
+  # Get required repos
+  curl http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo -L -O
+  mv EGI-trustanchors.repo /etc/yum.repos.d/
+  dnf install -y https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/e/epel-release-8-19.el8.noarch.rpm
+  dnf config-manager --set-enabled powertools
+  dnf install -y https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0-1.el8.noarch.rpm
+
+  # Install packages
+  dnf update -y
+  dnf upgrade -y
+
+  dnf install -y HEP_OSlibs bash tcsh perl bzip2-libs glibc nspr nss nss-util popt zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs libcom_err libX11 libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU readline ncurses-libs tcl tk libaio libxcrypt perl-libs git patch make zip unzip bzip2 java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel mesa-libGLU-devel rsync readline-devel ncurses-devel tcl-devel tk-devel voms-clients xrootd-client wlcg-voms-cms curl vim rsync krb5-workstation e2fsprogs xauth bash-completion squid ca-policy-egi-core
+
+  dnf clean all
+
+  # Create a user to install CMSSW because CMSSW can't be installed by root user
+  useradd cmsusr
+
+  # Create directories to install CMSSW
+  mkdir -p /data /data/cmssw /data/store
+  chown -R cmsusr /data
+
+  export VO_CMS_SW_DIR=/data/cmssw
+  export SCRAM_ARCH=el8_amd64_gcc11
+  export CMSSW_VERSION=CMSSW_13_0_0
+
+  # Install CMSSW
+
+  runuser -p cmsusr -c 'curl http://cmsrep.cern.ch/cmssw/repos/bootstrap.sh -o $VO_CMS_SW_DIR/bootstrap.sh'
+  runuser -p cmsusr -c 'sed -i -e"s/^download_method=.*/download_method=curl/" $VO_CMS_SW_DIR/bootstrap.sh'
+  runuser -p cmsusr -c 'chmod a+x $VO_CMS_SW_DIR/bootstrap.sh'
+  runuser -p cmsusr -c '$VO_CMS_SW_DIR/bootstrap.sh -a $SCRAM_ARCH -r cms -path $VO_CMS_SW_DIR setup'
+  runuser -p cmsusr -c '$VO_CMS_SW_DIR/common/cmspkg -a $SCRAM_ARCH install -y cms+cmssw+$CMSSW_VERSION'
+
+%environment
+  export VO_CMS_SW_DIR=/data/cmssw
+  export SCRAM_ARCH=el8_amd64_gcc11
+  export LANG=C
+  export LC_ALL=C
+  export http_proxy="http://localhost:3128"
