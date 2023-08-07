@@ -10,10 +10,14 @@ From: library/almalinux:8
   dnf install -y https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0-1.el8.noarch.rpm
 
   # Install packages
-  dnf update -y
-  dnf upgrade -y
-
-  dnf install -y HEP_OSlibs bash tcsh perl bzip2-libs glibc nspr nss nss-util popt zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs libcom_err libX11 libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU readline ncurses-libs tcl tk libaio libxcrypt perl-libs git patch make zip unzip bzip2 java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel mesa-libGLU-devel rsync readline-devel ncurses-devel tcl-devel tk-devel voms-clients xrootd-client wlcg-voms-cms curl vim rsync krb5-workstation e2fsprogs xauth bash-completion squid ca-policy-egi-core
+  dnf install -y HEP_OSlibs bash tcsh perl bzip2-libs glibc nspr nss nss-util popt \
+    zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs libcom_err libX11 \
+    libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU readline \
+    ncurses-libs tcl tk libaio libxcrypt perl-libs git patch make zip unzip bzip2 \
+    java-1.8.0-openjdk-devel libcom_err-devel which libXpm-devel libXft-devel \
+    mesa-libGLU-devel rsync readline-devel ncurses-devel tcl-devel tk-devel \
+    voms-clients xrootd-client wlcg-voms-cms curl vim rsync krb5-workstation e2fsprogs \
+    xauth bash-completion squid ca-policy-egi-core
 
   dnf clean all
 
