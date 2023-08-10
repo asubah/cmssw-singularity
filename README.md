@@ -13,7 +13,7 @@ export APPTAINER_TMPDIR=~/.tmp
 sudo -E apptainer build cmssw-almalinux-8.sif cmssw-almalinux-8.sdf
 ```
 
-# Using the container
+# Using the Container
 Here's how to use the container to run the CMSSW limited workflow. The goal is to make it work like it does on lxplus or other CERN systems.
 
 We'll use two directories:
