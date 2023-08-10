@@ -18,8 +18,9 @@ Here's how to use the container to run the CMSSW limited workflow. The goal is t
 
 We'll use two directories:
 
-    - `./squid`: This folder has the squid.conf file and will store the cached data later.
-    - `./lhapdfsets`: This folder has [LHADPF](https://lhapdf.hepforge.org/index.html) sets for the workflow.
+- `./squid`: This folder has the squid.conf file and will store the cached data later.
+- `./lhapdfsets`: This folder has [LHADPF](https://lhapdf.hepforge.org/index.html) sets for the workflow.
+
 ```bash
 apptainer shell --bind ./squid/:/squid --bind ./lhapdfsets/:/lhapdfsets cmssw-almalinux-8.sif
 ```
