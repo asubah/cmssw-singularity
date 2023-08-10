@@ -1,0 +1,18 @@
+[
+    {  "site": "local",
+       "volume": "local",
+       "protocols": [
+         {  "protocol": "file",
+            "access": "site-ro",
+            "prefix": "file:///data"
+         },
+         {  "protocol": "XRootD",
+            "access": "global-ro",
+            "prefix": "root://cms-xrd-global.cern.ch/"
+         }
+       ],
+       "type": "DISK",
+       "rse": null,
+       "fts": []
+    }
+]

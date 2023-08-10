@@ -1,0 +1,27 @@
+<site-local-config>
+<site name="local">
+    <event-data>
+        <catalog url="trivialcatalog_file:/data/cmssw/SITECONF/local/PhEDEx/storage.xml?protocol=file"/>
+        <catalog url="trivialcatalog_file:/data/cmssw/SITECONF/local/PhEDEx/storage.xml?protocol=xrootd"/>
+    </event-data>
+    <data-access>
+       <catalog volume="local" protocol="file"/>
+       <catalog volume="local" protocol="XRootD"/>
+    </data-access>
+    <calib-data>
+        <frontier-connect>
+            <server url="http://cmsfrontier1.cern.ch:8000/FrontierInt"/>
+            <server url="http://cmsfrontier2.cern.ch:8000/FrontierInt"/>
+            <proxy url="http://localhost:3128"/>
+            <proxy url="http://localhost:3128"/>
+            <backupproxy url="http://cmsbpfrontier.cern.ch:3128"/>
+            <backupproxy url="http://cmsbpfrontier1.cern.ch:3128"/>
+            <backupproxy url="http://cmsbpfrontier2.cern.ch:3128"/>
+            <failover toserver="no"/>
+            <retrieve-zip level="6"/>
+        </frontier-connect>
+        <catalog url=""/>
+    </calib-data>
+</site>
+</site-local-config>
+

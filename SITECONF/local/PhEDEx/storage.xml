@@ -1,0 +1,21 @@
+<storage-mapping>
+
+  <!-- Map any LFN with /store/... to /data/store/... on the local disk -->
+  <lfn-to-pfn protocol="file"
+    path-match="/+store/(.*)"
+    result="file:///data/store/$1"/>
+
+  <!-- Fallback to the global xrootd redirector -->
+  <lfn-to-pfn protocol="xrootd"
+    path-match="/+store/(.*)"
+    result="root://cms-xrd-global.cern.ch//store/$1"/>
+
+  <!-- Reverse rules -->
+  <pfn-to-lfn protocol="file"
+    path-match="file:///data/store/(.*)"
+    result="/store/$1"/>
+  <pfn-to-lfn protocol="xrootd"
+    path-match="root://cms-xrd-global.cern.ch//store/(.*)"
+    result="/store/$1"/>
+
+</storage-mapping>
