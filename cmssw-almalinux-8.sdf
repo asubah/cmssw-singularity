@@ -2,14 +2,17 @@ BootStrap: docker
 From: library/almalinux:8
 
 %post
+  pwd 
   # Get required repos
-  curl http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo -L -O
-  mv EGI-trustanchors.repo /etc/yum.repos.d/
+  curl https://repository.egi.eu/sw/production/cas/1/current/repo-files/egi-trustanchors.repo -L -O
+  cat egi-trustanchors.repo
+  mv egi-trustanchors.repo /etc/yum.repos.d/
   dnf install -y https://dl.fedoraproject.org/pub/epel/8/Everything/x86_64/Packages/e/epel-release-8-19.el8.noarch.rpm
   dnf config-manager --set-enabled powertools
   dnf install -y https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0-1.el8.noarch.rpm
 
   # Install packages
+
   dnf install -y HEP_OSlibs bash tcsh perl bzip2-libs glibc nspr nss nss-util popt \
     zlib glibc-devel openssl openssl-devel openssl-libs krb5-libs libcom_err libX11 \
     libXext libXft libXpm libglvnd-glx libglvnd-opengl mesa-libGLU readline \
@@ -21,7 +24,7 @@ From: library/almalinux:8
 
   dnf clean all
 
-  # Create a user to install CMSSW because CMSSW can't be installed by root user
+  # Create a temprary user to install CMSSW because CMSSW can't be installed by root user
   useradd cmsusr
 
   # Create directories to install CMSSW
@@ -40,9 +43,16 @@ From: library/almalinux:8
   runuser -p cmsusr -c '$VO_CMS_SW_DIR/bootstrap.sh -a $SCRAM_ARCH -r cms -path $VO_CMS_SW_DIR setup'
   runuser -p cmsusr -c '$VO_CMS_SW_DIR/common/cmspkg -a $SCRAM_ARCH install -y cms+cmssw+$CMSSW_VERSION'
 
+  # Delete the temp user
+
+  userdel cmsusr
+
 %environment
   export VO_CMS_SW_DIR=/data/cmssw
   export SCRAM_ARCH=el8_amd64_gcc11
   export LANG=C
   export LC_ALL=C
   export http_proxy="http://localhost:3128"
+
+%files
+  ./SITECONF /data/cmssw/SITECONF
